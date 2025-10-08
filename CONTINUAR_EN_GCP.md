@@ -21,30 +21,63 @@
 
 ## 🔧 PASOS PARA DEPLOY EN GCP
 
-### 1. Conectar a tu VM GCP:
+### OPCIÓN 1: Python Directo (Recomendado - Sin Docker)
+
+#### 1. Conectar a tu VM GCP:
 ```bash
 gcloud compute ssh tu-vm-name --zone=us-central1-a
 ```
 
-### 2. Clonar repositorio:
+#### 2. Ejecutar script de deployment:
+```bash
+# Descargar y ejecutar script de deployment
+curl -O https://raw.githubusercontent.com/shidalgo0925/mariachi-fidelizacion-system-/main/scripts/deploy_python_directo.sh
+chmod +x deploy_python_directo.sh
+sudo ./deploy_python_directo.sh
+```
+
+#### 3. Configurar variables de entorno:
+```bash
+sudo nano /opt/mariachi-fidelizacion/.env
+# Editar con tus IPs de GCP
+```
+
+#### 4. Configurar base de datos:
+```bash
+sudo ./scripts/setup_database_gcp.sh
+```
+
+#### 5. Reiniciar servicio:
+```bash
+sudo systemctl restart mariachi-fidelizacion
+```
+
+### OPCIÓN 2: Con Docker (Si prefieres)
+
+#### 1. Conectar a tu VM GCP:
+```bash
+gcloud compute ssh tu-vm-name --zone=us-central1-a
+```
+
+#### 2. Clonar repositorio:
 ```bash
 git clone https://github.com/shidalgo0925/mariachi-fidelizacion-system-.git
 cd mariachi-fidelizacion-system-
 ```
 
-### 3. Ejecutar script de configuración:
+#### 3. Ejecutar script de configuración:
 ```bash
 chmod +x scripts/setup_gcp.sh
 ./scripts/setup_gcp.sh
 ```
 
-### 4. Configurar variables de entorno:
+#### 4. Configurar variables de entorno:
 ```bash
 cp env.gcp .env
 nano .env  # Editar con tus IPs de GCP
 ```
 
-### 5. Deploy con Docker:
+#### 5. Deploy con Docker:
 ```bash
 docker-compose -f docker-compose.gcp.yml up -d
 ```
