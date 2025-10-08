@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, Text, JSON, Enum
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.database import Base
 import enum
@@ -66,11 +67,11 @@ class SiteConfig(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     
-    # Relaciones
-    users = relationship("User", back_populates="site_config", cascade="all, delete-orphan")
-    stickers = relationship("Sticker", back_populates="site_config", cascade="all, delete-orphan")
-    videos = relationship("Video", back_populates="site_config", cascade="all, delete-orphan")
-    interactions = relationship("Interaction", back_populates="site_config", cascade="all, delete-orphan")
+    # Relaciones (temporalmente comentadas para evitar errores de FK)
+    # users = relationship("User", back_populates="site_config", cascade="all, delete-orphan")
+    # stickers = relationship("Sticker", back_populates="site_config", cascade="all, delete-orphan")
+    # videos = relationship("Video", back_populates="site_config", cascade="all, delete-orphan")
+    # interactions = relationship("Interaction", back_populates="site_config", cascade="all, delete-orphan")
     
     def __repr__(self):
         return f"<SiteConfig(site_id='{self.site_id}', site_name='{self.site_name}')>"

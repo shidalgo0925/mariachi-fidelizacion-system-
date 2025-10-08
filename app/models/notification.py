@@ -25,7 +25,7 @@ class Notification(Base):
     read_at = Column(DateTime(timezone=True), nullable=True)
     
     # Metadatos y expiración
-    metadata = Column(Text, nullable=True)  # JSON string para datos adicionales
+    extra_data = Column(Text, nullable=True)  # JSON string para datos adicionales
     expires_at = Column(DateTime(timezone=True), nullable=True)
     
     # Timestamps

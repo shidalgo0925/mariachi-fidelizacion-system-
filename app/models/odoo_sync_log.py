@@ -12,27 +12,27 @@ class OdooSyncLog(Base):
     
     # Información del modelo y registro
     model_type = Column(Enum('res.partner', 'product.product', 'sale.order', 'account.move', 'project.project', 'project.task', name='odoo_model_type'), 
-                       nullable=False, description="Tipo de modelo de Odoo")
-    record_id = Column(Integer, nullable=False, description="ID del registro local")
-    odoo_id = Column(Integer, nullable=True, description="ID en Odoo")
+                       nullable=False)
+    record_id = Column(Integer, nullable=False)
+    odoo_id = Column(Integer, nullable=True)
     
     # Operación y estado
     operation = Column(Enum('create', 'update', 'delete', 'read', name='sync_operation'), 
-                      nullable=False, description="Operación realizada")
+                      nullable=False)
     status = Column(Enum('pending', 'syncing', 'completed', 'failed', 'retry', name='sync_status'), 
-                   default='pending', nullable=False, description="Estado de la sincronización")
+                   default='pending', nullable=False)
     
     # Detalles de la operación
-    error_message = Column(Text, nullable=True, description="Mensaje de error si falló")
-    retry_count = Column(Integer, default=0, nullable=False, description="Número de reintentos")
-    max_retries = Column(Integer, default=3, nullable=False, description="Máximo de reintentos")
+    error_message = Column(Text, nullable=True)
+    retry_count = Column(Integer, default=0, nullable=False)
+    max_retries = Column(Integer, default=3, nullable=False)
     
     # Metadatos
-    sync_data = Column(Text, nullable=True, description="Datos sincronizados (JSON)")
-    response_data = Column(Text, nullable=True, description="Respuesta de Odoo (JSON)")
+    sync_data = Column(Text, nullable=True)
+    response_data = Column(Text, nullable=True)
     
     # Timestamps
-    sync_timestamp = Column(DateTime(timezone=True), server_default=func.now(), description="Timestamp de la sincronización")
+    sync_timestamp = Column(DateTime(timezone=True), server_default=func.now())
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     
@@ -47,21 +47,21 @@ class OdooConfig(Base):
     site_id = Column(String(50), unique=True, nullable=False, index=True)
     
     # Configuración de conexión
-    odoo_url = Column(String(500), nullable=False, description="URL del servidor Odoo")
-    odoo_database = Column(String(100), nullable=False, description="Nombre de la base de datos")
-    odoo_username = Column(String(100), nullable=False, description="Usuario de Odoo")
-    odoo_password = Column(String(255), nullable=False, description="Contraseña de Odoo")
+    odoo_url = Column(String(500), nullable=False)
+    odoo_database = Column(String(100), nullable=False)
+    odoo_username = Column(String(100), nullable=False)
+    odoo_password = Column(String(255), nullable=False)
     
     # Configuración de sincronización
-    auto_sync = Column(Boolean, default=True, nullable=False, description="Sincronización automática habilitada")
-    sync_interval = Column(Integer, default=30, nullable=False, description="Intervalo de sincronización en minutos")
-    max_retries = Column(Integer, default=3, nullable=False, description="Máximo de reintentos")
+    auto_sync = Column(Boolean, default=True, nullable=False)
+    sync_interval = Column(Integer, default=30, nullable=False)
+    max_retries = Column(Integer, default=3, nullable=False)
     
     # Estado de conexión
     connection_status = Column(Enum('connected', 'disconnected', 'error', 'testing', name='connection_status'), 
-                              default='disconnected', nullable=False, description="Estado de la conexión")
-    last_sync = Column(DateTime(timezone=True), nullable=True, description="Última sincronización")
-    last_error = Column(Text, nullable=True, description="Último error de conexión")
+                              default='disconnected', nullable=False)
+    last_sync = Column(DateTime(timezone=True), nullable=True)
+    last_error = Column(Text, nullable=True)
     
     # Timestamps
     created_at = Column(DateTime(timezone=True), server_default=func.now())
@@ -78,18 +78,18 @@ class OdooWebhook(Base):
     site_id = Column(String(50), nullable=False, index=True)
     
     # Información del webhook
-    event_type = Column(String(100), nullable=False, description="Tipo de evento")
-    model = Column(String(100), nullable=False, description="Modelo de Odoo")
-    record_id = Column(Integer, nullable=False, description="ID del registro")
+    event_type = Column(String(100), nullable=False)
+    model = Column(String(100), nullable=False)
+    record_id = Column(Integer, nullable=False)
     
     # Datos del webhook
-    webhook_data = Column(Text, nullable=False, description="Datos del webhook (JSON)")
-    processed = Column(Boolean, default=False, nullable=False, description="Si fue procesado")
-    processing_error = Column(Text, nullable=True, description="Error de procesamiento")
+    webhook_data = Column(Text, nullable=False)
+    processed = Column(Boolean, default=False, nullable=False)
+    processing_error = Column(Text, nullable=True)
     
     # Timestamps
-    received_at = Column(DateTime(timezone=True), server_default=func.now(), description="Timestamp de recepción")
-    processed_at = Column(DateTime(timezone=True), nullable=True, description="Timestamp de procesamiento")
+    received_at = Column(DateTime(timezone=True), server_default=func.now())
+    processed_at = Column(DateTime(timezone=True), nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     
     def __repr__(self):
@@ -103,29 +103,29 @@ class OdooReport(Base):
     site_id = Column(String(50), nullable=False, index=True)
     
     # Información del reporte
-    report_type = Column(String(100), nullable=False, description="Tipo de reporte")
-    report_name = Column(String(200), nullable=False, description="Nombre del reporte")
+    report_type = Column(String(100), nullable=False)
+    report_name = Column(String(200), nullable=False)
     report_format = Column(Enum('json', 'csv', 'pdf', 'xlsx', name='report_format'), 
-                          default='json', nullable=False, description="Formato del reporte")
+                          default='json', nullable=False)
     
     # Filtros y parámetros
-    date_from = Column(DateTime(timezone=True), nullable=True, description="Fecha desde")
-    date_to = Column(DateTime(timezone=True), nullable=True, description="Fecha hasta")
-    filters = Column(Text, nullable=True, description="Filtros adicionales (JSON)")
+    date_from = Column(DateTime(timezone=True), nullable=True)
+    date_to = Column(DateTime(timezone=True), nullable=True)
+    filters = Column(Text, nullable=True)
     
     # Resultados
-    report_data = Column(Text, nullable=True, description="Datos del reporte (JSON)")
-    file_path = Column(String(500), nullable=True, description="Ruta del archivo generado")
-    file_size = Column(Integer, nullable=True, description="Tamaño del archivo en bytes")
+    report_data = Column(Text, nullable=True)
+    file_path = Column(String(500), nullable=True)
+    file_size = Column(Integer, nullable=True)
     
     # Estado
     status = Column(Enum('pending', 'generating', 'completed', 'failed', name='report_status'), 
-                   default='pending', nullable=False, description="Estado del reporte")
-    error_message = Column(Text, nullable=True, description="Mensaje de error si falló")
+                   default='pending', nullable=False)
+    error_message = Column(Text, nullable=True)
     
     # Timestamps
-    generated_at = Column(DateTime(timezone=True), nullable=True, description="Timestamp de generación")
-    expires_at = Column(DateTime(timezone=True), nullable=True, description="Timestamp de expiración")
+    generated_at = Column(DateTime(timezone=True), nullable=True)
+    expires_at = Column(DateTime(timezone=True), nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     

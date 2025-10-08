@@ -36,7 +36,7 @@ class InstagramUser(Base):
     sticker_generated = Column(Boolean, default=False)
     
     # Metadatos
-    metadata = Column(Text, nullable=True)  # JSON string para datos adicionales
+    extra_data = Column(Text, nullable=True)  # JSON string para datos adicionales
     
     # Timestamps
     created_at = Column(DateTime(timezone=True), server_default=func.now())

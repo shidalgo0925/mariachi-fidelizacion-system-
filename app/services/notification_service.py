@@ -3,8 +3,8 @@ from app.models.user import User
 from app.models.site_config import SiteConfig
 from app.models.notification import Notification
 from app.models.notification_template import NotificationTemplate
-from app.models.notification_subscription import NotificationSubscription
-from app.models.notification_preferences import NotificationPreferences
+from app.models.notification_template import NotificationSubscription
+from app.models.notification_template import NotificationPreferences
 from app.schemas.notification import (
     NotificationCreate, NotificationType, NotificationStatus, NotificationChannel,
     NotificationTemplateType, NotificationBatch, NotificationAnalytics,

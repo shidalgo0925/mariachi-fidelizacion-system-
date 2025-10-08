@@ -4,7 +4,7 @@ from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from app.config import settings
 from app.middleware.multitenant import MultiTenantMiddleware
 from app.middleware.logging import LoggingMiddleware
-from app.api import auth, users, stickers, videos, interactions, sites, instagram
+from app.api import auth, users, stickers, videos, interactions, instagram
 import structlog
 
 # Configure structured logging
@@ -59,7 +59,7 @@ app.add_middleware(MultiTenantMiddleware)
 app.add_middleware(LoggingMiddleware)
 
 # Include routers
-app.include_router(sites.router, prefix="/api/sites", tags=["sites"])
+# app.include_router(sites.router, prefix="/api/sites", tags=["sites"])  # Sites module not available
 app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
 app.include_router(users.router, prefix="/api/users", tags=["users"])
 app.include_router(stickers.router, prefix="/api/stickers", tags=["stickers"])

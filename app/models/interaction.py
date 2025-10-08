@@ -2,6 +2,17 @@ from sqlalchemy import Column, Integer, String, Boolean, DateTime, Text, Foreign
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 from app.database import Base
+import enum
+
+class InteractionType(str, enum.Enum):
+    LIKE = "like"
+    COMMENT = "comment"
+    REVIEW = "review"
+    SHARE = "share"
+    VIEW = "view"
+    CLICK = "click"
+    DOWNLOAD = "download"
+    SUBSCRIBE = "subscribe"
 
 class Interaction(Base):
     """Modelo para interacciones del sistema"""
@@ -19,7 +30,7 @@ class Interaction(Base):
     contenido = Column(Text, nullable=True)  # Contenido de la interacción (comentario, reseña)
     
     # Metadatos y estado
-    metadata = Column(Text, nullable=True)  # JSON string para datos adicionales
+    extra_data = Column(Text, nullable=True)  # JSON string para datos adicionales
     puntos_obtenidos = Column(Integer, default=0, nullable=False)
     status = Column(Enum('active', 'hidden', 'deleted', 'moderated', name='interaction_status'), 
                    default='active', nullable=False)

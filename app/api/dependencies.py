@@ -1,6 +1,7 @@
 from fastapi import Depends, HTTPException, status, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
+from typing import Optional, Union
 from app.database import get_db
 from app.models.user import User
 from app.models.site_config import SiteConfig
@@ -70,7 +71,7 @@ async def get_current_user(
 async def get_current_user_optional(
     request: Request = None,
     db: Session = Depends(get_db)
-) -> User | None:
+) -> Optional[User]:
     """Obtener usuario actual opcionalmente (para endpoints que pueden funcionar sin autenticación)"""
     try:
         # Verificar si hay token en el header

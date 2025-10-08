@@ -11,20 +11,20 @@ class NotificationTemplate(Base):
     site_id = Column(String(50), nullable=False, index=True)
     
     # Información del template
-    name = Column(String(100), nullable=False, description="Nombre del template")
+    name = Column(String(100), nullable=False)
     type = Column(Enum('email', 'sms', 'push', 'in_app', name='template_type'), 
-                  nullable=False, description="Tipo de template")
-    subject = Column(String(200), nullable=True, description="Asunto (para email)")
-    content = Column(Text, nullable=False, description="Contenido del template")
+                  nullable=False)
+    subject = Column(String(200), nullable=True)
+    content = Column(Text, nullable=False)
     
     # Variables y configuración
-    variables = Column(Text, nullable=True, description="Variables disponibles (JSON)")
-    is_active = Column(Boolean, default=True, nullable=False, description="Si el template está activo")
+    variables = Column(Text, nullable=True)
+    is_active = Column(Boolean, default=True, nullable=False)
     
     # Metadatos
-    description = Column(Text, nullable=True, description="Descripción del template")
-    category = Column(String(50), nullable=True, description="Categoría del template")
-    tags = Column(Text, nullable=True, description="Tags del template (JSON)")
+    description = Column(Text, nullable=True)
+    category = Column(String(50), nullable=True)
+    tags = Column(Text, nullable=True)
     
     # Timestamps
     created_at = Column(DateTime(timezone=True), server_default=func.now())
@@ -43,9 +43,9 @@ class NotificationSubscription(Base):
     
     # Configuración de suscripción
     notification_type = Column(Enum('sticker', 'instagram', 'points', 'level_up', 'system', 'video_completed', 'review', 'comment', 'like', 'welcome', 'reminder', 'promotion', 'birthday', 'anniversary', name='notification_type'), 
-                              nullable=False, description="Tipo de notificación")
-    channels = Column(Text, nullable=False, description="Canales habilitados (JSON)")
-    is_enabled = Column(Boolean, default=True, nullable=False, description="Si la suscripción está habilitada")
+                              nullable=False)
+    channels = Column(Text, nullable=False)
+    is_enabled = Column(Boolean, default=True, nullable=False)
     
     # Timestamps
     created_at = Column(DateTime(timezone=True), server_default=func.now())
@@ -66,24 +66,24 @@ class NotificationPreferences(Base):
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     
     # Configuración de canales
-    email_enabled = Column(Boolean, default=True, nullable=False, description="Notificaciones por email habilitadas")
-    push_enabled = Column(Boolean, default=True, nullable=False, description="Notificaciones push habilitadas")
-    sms_enabled = Column(Boolean, default=False, nullable=False, description="Notificaciones por SMS habilitadas")
-    in_app_enabled = Column(Boolean, default=True, nullable=False, description="Notificaciones in-app habilitadas")
+    email_enabled = Column(Boolean, default=True, nullable=False)
+    push_enabled = Column(Boolean, default=True, nullable=False)
+    sms_enabled = Column(Boolean, default=False, nullable=False)
+    in_app_enabled = Column(Boolean, default=True, nullable=False)
     
     # Configuración de horarios
-    quiet_hours_start = Column(String(5), nullable=True, description="Hora de inicio de silencio (HH:MM)")
-    quiet_hours_end = Column(String(5), nullable=True, description="Hora de fin de silencio (HH:MM)")
-    timezone = Column(String(50), default="UTC", nullable=False, description="Zona horaria del usuario")
+    quiet_hours_start = Column(String(5), nullable=True)
+    quiet_hours_end = Column(String(5), nullable=True)
+    timezone = Column(String(50), default="UTC", nullable=False)
     
     # Configuración de idioma
-    language = Column(String(10), default="es", nullable=False, description="Idioma preferido")
+    language = Column(String(10), default="es", nullable=False)
     
     # Configuración de frecuencia
-    digest_enabled = Column(Boolean, default=False, nullable=False, description="Resumen diario habilitado")
+    digest_enabled = Column(Boolean, default=False, nullable=False)
     digest_frequency = Column(Enum('daily', 'weekly', 'monthly', name='digest_frequency'), 
-                             default='daily', nullable=False, description="Frecuencia del resumen")
-    digest_time = Column(String(5), default="09:00", nullable=False, description="Hora del resumen (HH:MM)")
+                             default='daily', nullable=False)
+    digest_time = Column(String(5), default="09:00", nullable=False)
     
     # Timestamps
     created_at = Column(DateTime(timezone=True), server_default=func.now())
@@ -105,20 +105,20 @@ class NotificationDigest(Base):
     
     # Información del resumen
     digest_type = Column(Enum('daily', 'weekly', 'monthly', name='digest_type'), 
-                        nullable=False, description="Tipo de resumen")
-    period_start = Column(DateTime(timezone=True), nullable=False, description="Inicio del período")
-    period_end = Column(DateTime(timezone=True), nullable=False, description="Fin del período")
+                        nullable=False)
+    period_start = Column(DateTime(timezone=True), nullable=False)
+    period_end = Column(DateTime(timezone=True), nullable=False)
     
     # Contenido del resumen
-    title = Column(String(200), nullable=False, description="Título del resumen")
-    content = Column(Text, nullable=False, description="Contenido del resumen")
-    notification_count = Column(Integer, default=0, nullable=False, description="Número de notificaciones")
+    title = Column(String(200), nullable=False)
+    content = Column(Text, nullable=False)
+    notification_count = Column(Integer, default=0, nullable=False)
     
     # Estado del resumen
     status = Column(Enum('pending', 'sent', 'failed', name='digest_status'), 
-                   default='pending', nullable=False, description="Estado del resumen")
-    sent_at = Column(DateTime(timezone=True), nullable=True, description="Fecha de envío")
-    error_message = Column(Text, nullable=True, description="Mensaje de error si falló")
+                   default='pending', nullable=False)
+    sent_at = Column(DateTime(timezone=True), nullable=True)
+    error_message = Column(Text, nullable=True)
     
     # Timestamps
     created_at = Column(DateTime(timezone=True), server_default=func.now())
@@ -138,36 +138,36 @@ class NotificationCampaign(Base):
     site_id = Column(String(50), nullable=False, index=True)
     
     # Información de la campaña
-    name = Column(String(200), nullable=False, description="Nombre de la campaña")
-    description = Column(Text, nullable=True, description="Descripción de la campaña")
+    name = Column(String(200), nullable=False)
+    description = Column(Text, nullable=True)
     campaign_type = Column(Enum('promotional', 'informational', 'reminder', 'welcome', name='campaign_type'), 
-                          nullable=False, description="Tipo de campaña")
+                          nullable=False)
     
     # Configuración de la campaña
-    target_audience = Column(Text, nullable=True, description="Audiencia objetivo (JSON)")
-    channels = Column(Text, nullable=False, description="Canales de la campaña (JSON)")
-    template_id = Column(Integer, ForeignKey("notification_templates.id"), nullable=True, description="Template a usar")
+    target_audience = Column(Text, nullable=True)
+    channels = Column(Text, nullable=False)
+    template_id = Column(Integer, ForeignKey("notification_templates.id"), nullable=True)
     
     # Programación
-    scheduled_at = Column(DateTime(timezone=True), nullable=True, description="Fecha programada de envío")
-    expires_at = Column(DateTime(timezone=True), nullable=True, description="Fecha de expiración")
+    scheduled_at = Column(DateTime(timezone=True), nullable=True)
+    expires_at = Column(DateTime(timezone=True), nullable=True)
     
     # Estado de la campaña
     status = Column(Enum('draft', 'scheduled', 'running', 'completed', 'cancelled', name='campaign_status'), 
-                   default='draft', nullable=False, description="Estado de la campaña")
+                   default='draft', nullable=False)
     
     # Estadísticas
-    total_recipients = Column(Integer, default=0, nullable=False, description="Total de destinatarios")
-    sent_count = Column(Integer, default=0, nullable=False, description="Notificaciones enviadas")
-    delivered_count = Column(Integer, default=0, nullable=False, description="Notificaciones entregadas")
-    read_count = Column(Integer, default=0, nullable=False, description="Notificaciones leídas")
-    failed_count = Column(Integer, default=0, nullable=False, description="Notificaciones fallidas")
+    total_recipients = Column(Integer, default=0, nullable=False)
+    sent_count = Column(Integer, default=0, nullable=False)
+    delivered_count = Column(Integer, default=0, nullable=False)
+    read_count = Column(Integer, default=0, nullable=False)
+    failed_count = Column(Integer, default=0, nullable=False)
     
     # Timestamps
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-    started_at = Column(DateTime(timezone=True), nullable=True, description="Fecha de inicio")
-    completed_at = Column(DateTime(timezone=True), nullable=True, description="Fecha de finalización")
+    started_at = Column(DateTime(timezone=True), nullable=True)
+    completed_at = Column(DateTime(timezone=True), nullable=True)
     
     # Relaciones
     template = relationship("NotificationTemplate")
